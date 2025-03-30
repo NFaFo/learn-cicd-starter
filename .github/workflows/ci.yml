@@ -16,13 +16,20 @@ jobs:
       - name: Run tests
         run: go test ./... -cover
 
-      - name: Force Failure
-        run: (exit 0)
-
   style:
     name: Style
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Check formatting
         run: test -z $(go fmt ./...)
+
+      - name: Install staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+      - name: staticcheck
+        run: $HOME/go/bin/staticcheck ./...
+	
