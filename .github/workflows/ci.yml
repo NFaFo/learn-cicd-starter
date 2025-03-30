@@ -18,3 +18,11 @@ jobs:
 
       - name: Force Failure
         run: (exit 0)
+
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        run: test -z $(go fmt ./...)
