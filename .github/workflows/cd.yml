@@ -1,7 +1,7 @@
 name: cd
 
 on:
-  pull_request:
+  push:
     branches: [main]
 
 jobs:
@@ -21,10 +21,14 @@ jobs:
       - name: Build the app
         run: ./scripts/buildprod.sh
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
         with:
-          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: notely-455413
 
       - name: Submit Docker image to Artifact Registry
